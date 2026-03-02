@@ -1,6 +1,6 @@
 import os
 
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
 from .analyzer import analyze_image
@@ -30,4 +30,7 @@ async def health() -> dict:
 @app.post("/analyze", response_model=ImageAnalysis)
 async def analyze(file: UploadFile = File(...)) -> ImageAnalysis:
     image_bytes = await file.read()
-    return analyze_image(image_bytes, file.filename or "upload")
+    try:
+        return analyze_image(image_bytes, file.filename or "upload")
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
