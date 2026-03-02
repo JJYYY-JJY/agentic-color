@@ -33,6 +33,3 @@ class ImageAnalysis(BaseModel):
     analyzed_at: datetime
     variants: list[StyleVariant] = Field(..., min_length=3, max_length=3)
 
-
-class AnalyzeResponse(BaseModel):
-    analysis: ImageAnalysis

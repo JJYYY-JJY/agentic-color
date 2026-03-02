@@ -20,7 +20,7 @@ export default function App() {
           <p className="filename-label">{analysis.filename}</p>
           <div className="cards-row">
             {analysis.variants.map((v) => (
-              <StyleVariantCard key={v.id} variant={v} />
+              <StyleVariantCard key={`${analysis.image_id}-${v.id}`} variant={v} />
             ))}
           </div>
         </>

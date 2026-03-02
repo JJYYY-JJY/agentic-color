@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import type { StyleVariant } from "../types";
 import type { ColorParams } from "../types";
 
@@ -16,10 +16,6 @@ const PARAM_KEYS: ParamKey[] = [
 
 export function StyleVariantCard({ variant }: Props) {
   const [params, setParams] = useState<ColorParams>({ ...variant.params });
-
-  useEffect(() => {
-    setParams({ ...variant.params });
-  }, [variant]);
 
   const handleChange = (key: ParamKey, value: number) => {
     setParams((prev) => ({ ...prev, [key]: value }));
