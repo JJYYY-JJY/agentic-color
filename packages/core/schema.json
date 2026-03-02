@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/agentic-color/schema",
+  "title": "ImageAnalysis",
+  "type": "object",
+  "required": ["image_id", "filename", "analyzed_at", "variants"],
+  "additionalProperties": false,
+  "properties": {
+    "image_id": { "type": "string" },
+    "filename": { "type": "string" },
+    "analyzed_at": { "type": "string", "format": "date-time" },
+    "variants": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": { "$ref": "#/definitions/StyleVariant" }
+    }
+  },
+  "definitions": {
+    "StyleVariant": {
+      "type": "object",
+      "required": ["id", "label", "params"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "enum": ["clean_neutral", "warm_film", "moody_cinematic"]
+        },
+        "label": { "type": "string" },
+        "params": { "$ref": "#/definitions/ColorParams" }
+      }
+    },
+    "ColorParams": {
+      "type": "object",
+      "required": [
+        "temperature", "tint", "exposure", "contrast",
+        "highlights", "shadows", "whites", "blacks",
+        "vibrance", "saturation", "clarity", "dehaze"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "temperature": { "type": "number", "minimum": 2000, "maximum": 50000 },
+        "tint":        { "type": "number", "minimum": -100, "maximum": 100 },
+        "exposure":    { "type": "number", "minimum": -5,   "maximum": 5 },
+        "contrast":    { "type": "number", "minimum": -100, "maximum": 100 },
+        "highlights":  { "type": "number", "minimum": -100, "maximum": 100 },
+        "shadows":     { "type": "number", "minimum": -100, "maximum": 100 },
+        "whites":      { "type": "number", "minimum": -100, "maximum": 100 },
+        "blacks":      { "type": "number", "minimum": -100, "maximum": 100 },
+        "vibrance":    { "type": "number", "minimum": -100, "maximum": 100 },
+        "saturation":  { "type": "number", "minimum": -100, "maximum": 100 },
+        "clarity":     { "type": "number", "minimum": -100, "maximum": 100 },
+        "dehaze":      { "type": "number", "minimum": -100, "maximum": 100 }
+      }
+    }
+  }
+}
