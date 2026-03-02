@@ -11,7 +11,8 @@ pip install -r requirements.txt
 ## Run
 
 ```bash
-uvicorn main:app --reload --port 8000
+cd apps
+uvicorn api.main:app --reload --port 8000
 ```
 
 ## Endpoints

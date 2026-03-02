@@ -25,9 +25,9 @@ The **Web UI** uploads an image, receives the variants, and renders each as an e
 ### 1 — API
 
 ```bash
-cd apps/api
-pip install -r requirements.txt
-uvicorn main:app --reload --port 8000
+cd apps
+pip install -r api/requirements.txt
+uvicorn api.main:app --reload --port 8000
 # → http://localhost:8000/health
 ```
 

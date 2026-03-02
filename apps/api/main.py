@@ -1,6 +1,6 @@
 import os
 
-from fastapi import FastAPI, UploadFile
+from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
 from .analyzer import analyze_image
@@ -8,7 +8,11 @@ from .models import ImageAnalysis
 
 app = FastAPI(title="agentic-color API")
 
-_cors_origins = os.environ.get("CORS_ORIGINS", "http://localhost:5173").split(",")
+_cors_origins = [
+    o.strip()
+    for o in os.environ.get("CORS_ORIGINS", "http://localhost:5173").split(",")
+    if o.strip()
+]
 
 app.add_middleware(
     CORSMiddleware,
@@ -24,6 +28,6 @@ async def health() -> dict:
 
 
 @app.post("/analyze", response_model=ImageAnalysis)
-async def analyze(file: UploadFile) -> ImageAnalysis:
+async def analyze(file: UploadFile = File(...)) -> ImageAnalysis:
     image_bytes = await file.read()
     return analyze_image(image_bytes, file.filename or "upload")
