@@ -3,8 +3,8 @@ import os
 from fastapi import FastAPI, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
-from analyzer import analyze_image
-from models import ImageAnalysis
+from .analyzer import analyze_image
+from .models import ImageAnalysis
 
 app = FastAPI(title="agentic-color API")
 
