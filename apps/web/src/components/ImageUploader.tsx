@@ -1,5 +1,5 @@
 /// <reference types="vite/client" />
-import { useState, useRef } from "react";
+import { useRef, useState } from "react";
 import type { ImageAnalysis } from "../types";
 
 const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:8000";
@@ -45,20 +45,12 @@ export function ImageUploader({ onResult }: Props) {
         <input
           ref={fileRef}
           type="file"
-          accept="image/*"
+          accept="image/jpeg,image/png,image/dng,.cr2,.dng"
           onChange={(e) => setFilename(e.target.files?.[0]?.name ?? null)}
         />
-        {filename ? (
-          <span className="filename">{filename}</span>
-        ) : (
-          <span className="placeholder">Click or drag an image here</span>
-        )}
+        {filename ? <span className="filename">{filename}</span> : <span className="placeholder">Click or drag JPG/PNG/DNG/CR2</span>}
       </label>
-      <button
-        className="analyze-btn"
-        onClick={handleAnalyze}
-        disabled={loading || !filename}
-      >
+      <button className="analyze-btn" onClick={handleAnalyze} disabled={loading || !filename}>
         {loading ? "Analyzing…" : "Analyze"}
       </button>
       {error && <p className="error">{error}</p>}

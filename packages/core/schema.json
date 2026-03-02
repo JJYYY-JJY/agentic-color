@@ -3,30 +3,63 @@
   "$id": "https://github.com/agentic-color/schema",
   "title": "ImageAnalysis",
   "type": "object",
-  "required": ["image_id", "filename", "analyzed_at", "variants"],
+  "required": [
+    "image_id",
+    "filename",
+    "analyzed_at",
+    "original_preview_data_url",
+    "scene_analysis",
+    "compatible_models",
+    "variants"
+  ],
   "additionalProperties": false,
   "properties": {
     "image_id": { "type": "string" },
     "filename": { "type": "string" },
     "analyzed_at": { "type": "string", "format": "date-time" },
+    "original_preview_data_url": { "type": "string" },
+    "scene_analysis": { "$ref": "#/definitions/SceneAnalysis" },
+    "compatible_models": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/ModelCapability" }
+    },
     "variants": {
       "type": "array",
       "minItems": 3,
-      "maxItems": 3,
       "items": { "$ref": "#/definitions/StyleVariant" }
     }
   },
   "definitions": {
-    "StyleVariant": {
+    "SceneAnalysis": {
       "type": "object",
-      "required": ["id", "label", "params"],
+      "required": ["scene_type", "key_issues", "recommendation"],
       "additionalProperties": false,
       "properties": {
-        "id": {
-          "type": "string",
-          "enum": ["clean_neutral", "warm_film", "moody_cinematic"]
-        },
+        "scene_type": { "type": "string" },
+        "key_issues": { "type": "array", "items": { "type": "string" } },
+        "recommendation": { "type": "string" }
+      }
+    },
+    "ModelCapability": {
+      "type": "object",
+      "required": ["provider", "model", "vision_input"],
+      "additionalProperties": false,
+      "properties": {
+        "provider": { "type": "string", "enum": ["openai", "google", "anthropic"] },
+        "model": { "type": "string" },
+        "vision_input": { "type": "boolean" }
+      }
+    },
+    "StyleVariant": {
+      "type": "object",
+      "required": ["id", "label", "intent", "confidence", "params", "preview_data_url"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
         "label": { "type": "string" },
+        "intent": { "type": "string" },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "preview_data_url": { "type": "string" },
         "params": { "$ref": "#/definitions/ColorParams" }
       }
     },
@@ -35,22 +68,27 @@
       "required": [
         "temperature", "tint", "exposure", "contrast",
         "highlights", "shadows", "whites", "blacks",
-        "vibrance", "saturation", "clarity", "dehaze"
+        "vibrance", "saturation", "clarity", "dehaze",
+        "texture", "sharpen", "noise_reduction", "color_boost"
       ],
       "additionalProperties": false,
       "properties": {
         "temperature": { "type": "number", "minimum": 2000, "maximum": 50000 },
-        "tint":        { "type": "number", "minimum": -100, "maximum": 100 },
-        "exposure":    { "type": "number", "minimum": -5,   "maximum": 5 },
-        "contrast":    { "type": "number", "minimum": -100, "maximum": 100 },
-        "highlights":  { "type": "number", "minimum": -100, "maximum": 100 },
-        "shadows":     { "type": "number", "minimum": -100, "maximum": 100 },
-        "whites":      { "type": "number", "minimum": -100, "maximum": 100 },
-        "blacks":      { "type": "number", "minimum": -100, "maximum": 100 },
-        "vibrance":    { "type": "number", "minimum": -100, "maximum": 100 },
-        "saturation":  { "type": "number", "minimum": -100, "maximum": 100 },
-        "clarity":     { "type": "number", "minimum": -100, "maximum": 100 },
-        "dehaze":      { "type": "number", "minimum": -100, "maximum": 100 }
+        "tint": { "type": "number", "minimum": -100, "maximum": 100 },
+        "exposure": { "type": "number", "minimum": -5, "maximum": 5 },
+        "contrast": { "type": "number", "minimum": -100, "maximum": 100 },
+        "highlights": { "type": "number", "minimum": -100, "maximum": 100 },
+        "shadows": { "type": "number", "minimum": -100, "maximum": 100 },
+        "whites": { "type": "number", "minimum": -100, "maximum": 100 },
+        "blacks": { "type": "number", "minimum": -100, "maximum": 100 },
+        "vibrance": { "type": "number", "minimum": -100, "maximum": 100 },
+        "saturation": { "type": "number", "minimum": -100, "maximum": 100 },
+        "clarity": { "type": "number", "minimum": -100, "maximum": 100 },
+        "dehaze": { "type": "number", "minimum": -100, "maximum": 100 },
+        "texture": { "type": "number", "minimum": -100, "maximum": 100 },
+        "sharpen": { "type": "number", "minimum": 0, "maximum": 100 },
+        "noise_reduction": { "type": "number", "minimum": 0, "maximum": 100 },
+        "color_boost": { "type": "number", "minimum": -100, "maximum": 100 }
       }
     }
   }

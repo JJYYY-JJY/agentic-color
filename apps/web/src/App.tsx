@@ -18,9 +18,14 @@ export default function App() {
             ← Reset
           </button>
           <p className="filename-label">{analysis.filename}</p>
+          <p className="scene-line">
+            Scene: {analysis.scene_analysis.scene_type} · Issues: {analysis.scene_analysis.key_issues.join(", ")}
+          </p>
+          <p className="scene-line">Recommendation: {analysis.scene_analysis.recommendation}</p>
+          <p className="scene-line">Vision API adapters: {analysis.compatible_models.map((m) => `${m.provider}/${m.model}`).join(" · ")}</p>
           <div className="cards-row">
             {analysis.variants.map((v) => (
-              <StyleVariantCard key={`${analysis.image_id}-${v.id}`} variant={v} />
+              <StyleVariantCard key={`${analysis.image_id}-${v.id}`} variant={v} originalPreview={analysis.original_preview_data_url} />
             ))}
           </div>
         </>
